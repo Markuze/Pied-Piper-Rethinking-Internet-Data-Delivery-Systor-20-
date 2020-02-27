@@ -1,0 +1,342 @@
+\begin{thebibliography}{10}
+
+\bibitem{RON}
+{\sc Andersen, D., Balakrishnan, H., Kaashoek, F., and Morris, R.}
+\newblock Resilient overlay networks.
+\newblock {\em {ACM SOSP}\/} (2001), 131--145.
+
+\bibitem{apnic2017bgp}
+{\sc {APNIC Labs}}.
+\newblock {BGP in 2017}.
+\newblock \url{https://labs.apnic.net/?p=1102}.
+\newblock Accessed: Jan 2018.
+
+\bibitem{aws2018spending}
+{\sc AWS}.
+\newblock Announcing network performance improvements for amazon ec2 instances.
+\newblock
+  \url{https://aws.amazon.com/about-aws/whats-new/2018/01/announcing-network-performance-improvements-for-amazon-ec2-instances/}.
+\newblock Published Jan 26, 2018.
+
+\bibitem{cgn2017}
+{\sc Bhattacherjee, D., Tirmazi, M., and Singla, A.}
+\newblock A cloud-based content gathering network.
+\newblock In {\em USENIX HotCloud\/} (Santa Clara, CA, 2017), {USENIX}
+  Association.
+
+\bibitem{CRONets}
+{\sc Cai, C., Le, F., Sun, X., Xie, G., Jamjoom, H., and Campbell, R.}
+\newblock {CRONets}: Cloud-routed overlay networks.
+\newblock {\em ICDCS\/} (2016).
+
+\bibitem{BBR}
+{\sc Cardwell, N., Cheng, Y., Gunn, C.~S., Yeganeh, S.~H., and Jacobson, V.}
+\newblock {BBR}: Congestion-based congestion control.
+\newblock {\em ACM Queue 14, September-Octobor\/} (2016), 20 -- 53.
+
+\bibitem{one-hop}
+{\sc Chiu, Y.-C., Schlinker, B., Radhakrishnan, A.~B., Katz-Bassett, E., and
+  Govindan, R.}
+\newblock Are we one hop away from a better internet?
+\newblock {\em ACM IMC\/} (2015), 523--529.
+
+\bibitem{unusual}
+{\sc Comarela, G., Terzi, E., and Crovella, M.}
+\newblock Detecting unusually-routed {ASes}: Methods and applications.
+\newblock {\em ACM IMC\/} (2016), 445--459.
+
+\bibitem{PCC}
+{\sc Dong, M., Li, Q., Zarchy, D., Godfrey, B., and Schapira, M.}
+\newblock Rethinking congestion control architecture: Performance-oriented
+  congestion control.
+\newblock {\em SIGCOMM\/} (2014).
+
+\bibitem{Eli}
+{\sc Gordon, A., Amit, N., Har'El, N., Ben-Yehuda, M., Landau, A., Schuster,
+  A., and Tsafrir, D.}
+\newblock Eli: bare-metal performance for i/o virtualization.
+\newblock {\em ACM SIGPLAN Notices 47}, 4 (2012), 411--422.
+
+\bibitem{Elvis}
+{\sc Gordon, A., Har'El, N., Landau, A., Ben-Yehuda, M., and Traeger, A.}
+\newblock Towards exitless and efficient paravirtual i/o.
+\newblock In {\em Proceedings of the 5th Annual International Systems and
+  Storage Conference\/} (2012), ACM, p.~10.
+
+\bibitem{haq2017measuring}
+{\sc Haq, O., Raja, M., and Dogar, F.~R.}
+\newblock Measuring and improving the reliability of wide-area cloud paths.
+\newblock In {\em WWW\/} (2017), pp.~253--262.
+
+\bibitem{keqiang2016acdc}
+{\sc He, K., Rozner, E., Agarwal, K., Gu, Y.~J., Felter, W., Carter, J.~B., and
+  Akella, A.}
+\newblock {AC/DC} {TCP:} virtual congestion control enforcement for datacenter
+  networks.
+\newblock In {\em SIGCOMM\/} (2016), pp.~244--257.
+
+\bibitem{kernelsplit}
+{\sc Jain, R., and Ott, T.~J.}
+\newblock {\em Design and implementation of split TCP in the linux kernel}.
+\newblock PhD thesis, New Jersey Institute of Technology, Department of
+  Computer Science, 2007.
+
+\bibitem{jeyakumar2012eyeq}
+{\sc Jeyakumar, V., Alizadeh, M., Mazi{\`{e}}res, D., Prabhakar, B., and Kim,
+  C.}
+\newblock Eyeq: Practical network performance isolation for the multi-tenant
+  cloud.
+\newblock In {\em HotCloud\/} (2012).
+
+\bibitem{kelly2001mathematical}
+{\sc Kelly, F.}
+\newblock Mathematical modelling of the internet.
+\newblock In {\em Mathematics unlimited—2001 and beyond}. Springer, 2001,
+  pp.~685--702.
+
+\bibitem{Kopparty2002}
+{\sc Kopparty, S., Krishnamurthy, S.~V., Faloutsos, M., and Tripathi, S.~K.}
+\newblock {Split TCP for mobile ad hoc networks}.
+\newblock {\em Global Telecommunications Conference, 2002 1\/} (2002),
+  138--142.
+
+\bibitem{virtio}
+{\sc KVM}.
+\newblock vmxnet3.
+\newblock \url{https://www.linux-kvm.org/page/Virtio}.
+
+\bibitem{kuhne2012ripe}
+{\sc Kühne, M.}
+\newblock Update on as path lengths over time - {RIPE} labs.
+\newblock
+  \url{https://labs.ripe.net/Members/mirjam/update-on-as-path-lengths-over-time},
+  2012.
+\newblock Accessed: Jan 2018.
+
+\bibitem{ladiwala}
+{\sc Ladiwala, S., Ramaswamy, R., and Wolf, T.}
+\newblock Transparent tcp acceleration.
+\newblock {\em Computer Communications 32}, 4 (2009), 691--702.
+
+\bibitem{quic}
+{\sc Langley, A., Riddoch, A., Wilk, A., Vicente, A., Krasic, C., Zhang, D.,
+  Yang, F., Kouranov, F., Swett, I., Iyengar, J., Bailey, J., Dorfman, J.,
+  Roskind, J., Kulik, J., Westin, P., Tenneti, R., Shade, R., Hamilton, R.,
+  Vasiliev, V., Chang, W.-T., and Shi, Z.}
+\newblock The {QUIC} transport protocol: Design and internet-scale deployment.
+\newblock In {\em Proceedings of the Conference of the ACM Special Interest
+  Group on Data Communication\/} (New York, NY, USA, 2017), SIGCOMM '17, ACM,
+  pp.~183--196.
+
+\bibitem{le2016understanding}
+{\sc Le, F., Nahum, E., and Kandlur, D.}
+\newblock Understanding the performance and bottlenecks of cloud-routed overlay
+  networks: A case study.
+\newblock In {\em CAN\/} (2016), ACM.
+
+\bibitem{akamai-3}
+{\sc Leighton, T.}
+\newblock Improving performance on the internet.
+\newblock {\em Commun. ACM 52}, 2 (Feb. 2009), 44--51.
+
+\bibitem{luglio2004}
+{\sc Luglio, M., Sanadidi, M.~Y., Gerla, M., and Stepanek, J.}
+\newblock {On-Board Satellite "Split TCP" Proxy}.
+\newblock {\em IEEE Journal on Selected Areas in Communications 22}, 2 (2004),
+  362--370.
+
+\bibitem{Copy}
+{\sc Markuze, A., Morrison, A., and Tsafrir, D.}
+\newblock True iommu protection from dma attacks: When copy is faster than zero
+  copy.
+\newblock {\em ACM SIGARCH Computer Architecture News 44}, 2 (2016), 249--262.
+
+\bibitem{nagle}
+{\sc Nagle, J.}
+\newblock Congestion control in ip/tcp internetworks.
+\newblock RFC 896, RFC Editor, January 1984.
+\newblock Accessed: Jan 2018.
+
+\bibitem{akamai-4}
+{\sc Nygren, E., Sitaraman, R.~K., and Sun, J.}
+\newblock The akamai network: A platform for high-performance internet
+  applications.
+\newblock {\em SIGOPS Oper. Syst. Rev. 44}, 3 (Aug. 2010), 2--19.
+
+\bibitem{pathak2010measuring}
+{\sc Pathak, A., Wang, A., Huang, C., Greenberg, A.~G., Hu, Y.~C., Kern, R.,
+  Li, J., and Ross, K.~W.}
+\newblock Measuring and evaluating tcp splitting for cloud services.
+\newblock In {\em Proc. PAM\/} (2010).
+
+\bibitem{pucha2005overlay}
+{\sc Pucha, H., and Hu, Y.~C.}
+\newblock Overlay tcp: Ending end-to-end transport for higher throughput.
+\newblock {\em Poster in ACM SIGCOMM\/} (2005), 1--2.
+
+\bibitem{pucha2005slot}
+{\sc Pucha, H., and Hu, Y.~C.}
+\newblock Slot: Shortened loop internet transport using overlay networks, 2005.
+
+\bibitem{akamai-2}
+{\sc Rahul, H., Kasbekar, M., Sitaraman, R., and Berger, A.}
+\newblock {Towards Realizing the Performance and Availability Benefits of a
+  Global Overlay Network}.
+\newblock In {\em PAM 2006\/} (Adelaide, Australia, March 2006).
+
+\bibitem{old-overlay-2}
+{\sc Savage, S., Anderson, T., Aggarwal, A., Becker, D., Cardwell, N., Collins,
+  A., Hoffman, E., Snell, J., Vahdat, A., Voelker, G.~M., and Zahorjan, J.}
+\newblock Detour: a case for informed internet routing and transport.
+\newblock {\em IEEE Micro 19}, 1 (January 1999), 50{\textendash}59.
+
+\bibitem{old-overlay-1}
+{\sc Savage, S., Collins, A., Hoffman, E., Snell, J., and Anderson, T.}
+\newblock The end-to-end effects of internet path selection.
+\newblock {\em SIGCOMM Comput. Commun. Rev. 29}, 4 (Aug. 1999), 289--299.
+
+\bibitem{schlinker2017engineering}
+{\sc Schlinker, B., Kim, H., Cui, T., Katz-Bassett, E., Madhyastha, H.~V.,
+  Cunha, I., Quinn, J., Hasan, S., Lapukhov, P., and Zeng, H.}
+\newblock Engineering egress with edge fabric: steering oceans of content to
+  the world.
+\newblock In {\em Proceedings of the Conference of the ACM Special Interest
+  Group on Data Communication\/} (2017), ACM, pp.~418--431.
+
+\bibitem{microsoft2018spending}
+{\sc Silva, G.}
+\newblock Maximize your {VM}’s performance with {A}ccelerated {N}etworking -
+  {Microsoft Azure}.
+\newblock
+  \url{https://azure.microsoft.com/en-us/blog/maximize-your-vm-s-performance-with-accelerated-networking-now-}\\\url{generally-available-for-both-windows-and-linux/}.
+\newblock Published Jan 5, 2018.
+
+\bibitem{siracusano2016miniproxy}
+{\sc Siracusano, G., Bifulco, R., Kuenzer, S., Salsano, S., Melazzi, N.~B., and
+  Huici, F.}
+\newblock On the fly tcp acceleration with miniproxy.
+\newblock In {\em HotMIddlebox\/} (2016), ACM, pp.~44--49.
+
+\bibitem{gcp2018spending}
+{\sc Sloss, B.~T.}
+\newblock Expanding our global infrastructure with new regions and subsea
+  cables - {Google Cloud}.
+\newblock
+  \url{https://www.blog.google/topics/google-cloud/expanding-our-global-infrastructure-new-regions-and-subsea-cables/}.
+\newblock Published Jan 16, 2018.
+
+\bibitem{FlexSC}
+{\sc Soares, L., and Stumm, M.}
+\newblock Flexsc: Flexible system call scheduling with exception-less system
+  calls.
+\newblock In {\em Proceedings of the 9th USENIX conference on Operating systems
+  design and implementation\/} (2010), USENIX Association, pp.~33--46.
+
+\bibitem{multidimensional}
+{\sc Tomanek, O., Mulinka, P., and Kencl, L.}
+\newblock Multidimensional cloud latency monitoring and evaluation.
+\newblock {\em Elsevier Computer Networks 107\/} (2016), 104--120.
+
+\bibitem{baloon}
+{\sc VMware}.
+\newblock Baloon driver.
+\newblock
+  \url{https://pubs.vmware.com/vfabric53/index.jsp?topic=/com.vmware.vfabric.em4j.1.3/overview/vmware-tools-balloon.html}.
+
+\bibitem{hotadd}
+{\sc {VMware}}.
+\newblock Hot add.
+\newblock
+  \url{https://pubs.vmware.com/vsphere-50/index.jsp?topic=\%2Fcom.vmware.vsphere.vm_admin.doc_50\%2FGUID-0B4C3128-F854-43B9-9D80-A20C0C8B0FF7.html}.
+
+\bibitem{vmxnet3}
+{\sc VMware}.
+\newblock vmxnet3.
+\newblock \url{https://www.vmware.com/pdf/vsp_4_vmxnet3_perf.pdf}.
+
+\bibitem{wang2013accelerating}
+{\sc Wang, X.~S., Shen, H., and Wetherall, D.}
+\newblock Accelerating the mobile web with selective offloading.
+\newblock In {\em Proc. ACM MCC\/} (2013).
+
+\bibitem{posted}
+{\sc Wu, F., and Nakajima, J.}
+\newblock Intel vt-d, posted interrupts.
+\newblock
+  \url{https://events.static.linuxfound.org/sites/events/files/slides/VT-d\%20Posted\%20Interrupts-final\%20.pdf}.
+
+\bibitem{yap2017taking}
+{\sc Yap, K.-K., Motiwala, M., Rahe, J., Padgett, S., Holliman, M., Baldus, G.,
+  Hines, M., Kim, T., Narayanan, A., Jain, A., et~al.}
+\newblock Taking the edge off with espresso: Scale, reliability and
+  programmability for global internet peering.
+\newblock In {\em Proceedings of the Conference of the ACM Special Interest
+  Group on Data Communication\/} (2017), ACM, pp.~432--445.
+
+\bibitem{epoll}
+{epoll}.
+\newblock \url{http://man7.org/linux/man-pages/man7/epoll.7.html}.
+\newblock Accessed: Jan 2018.
+
+\bibitem{hping3}
+hping.
+\newblock \url{http://www.hping.org/}.
+
+\bibitem{iptables}
+The netfilter.org "iptables" project.
+\newblock \url{https://www.netfilter.org/projects/iptables/index.html}.
+
+\bibitem{kamatera}
+Kamatera performance cloud.
+\newblock \url{http://www.kamatera.com/}.
+
+\bibitem{ktcp}
+{K-split in github}.
+\newblock \url{https://github.com/PiedPiperOCD/K-split.git}.
+
+\bibitem{kthread}
+{Kernel threads made easy}.
+\newblock \url{https://lwn.net/Articles/65178/}.
+
+\bibitem{lwip}
+{lwIP - A Lightweight TCP/IP stack}.
+\newblock \url{https://savannah.nongnu.org/projects/lwip}.
+
+\bibitem{minikernel}
+{Mini-OS}.
+\newblock \url{https://wiki.xenproject.org/wiki/Mini-OS}.
+
+\bibitem{netfilter}
+{The netfilter.org project}.
+\newblock \url{http://www.netfilter.org/}.
+\newblock Accessed: Jan 2018.
+
+\bibitem{PlanetLab}
+{P}lanet{L}ab : An open platform for developing, deploying, and accessing
+  planetary-scale services.
+\newblock \url{https://www.planet-lab.org/}.
+
+\bibitem{proc}
+{Procfs}.
+\newblock
+  \url{http://www.tldp.org/LDP/Linux-Filesystem-Hierarchy/html/proc.html}.
+
+\bibitem{pthreads}
+{POSIX threads}.
+\newblock \url{http://man7.org/linux/man-pages/man7/pthreads.7.html}.
+
+\bibitem{teridion}
+Teridion.
+\newblock \url{https://www.teridion.com/}.
+
+\bibitem{virtfs}
+A tour of the linux vfs.
+\newblock \url{http://www.tldp.org/LDP/khg/HyperNews/get/fs/vfstour.html}.
+
+\bibitem{zhao2011reducing}
+{\sc Zhao, B., Tak, B.~C., and Cao, G.}
+\newblock Reducing the delay and power consumption of web browsing on
+  smartphones in 3g networks.
+\newblock In {\em Proc. IEEE ICDCS\/} (2011).
+
+\end{thebibliography}
