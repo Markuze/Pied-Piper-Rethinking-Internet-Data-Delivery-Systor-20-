@@ -32,7 +32,8 @@
 \fi
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\documentclass[newfonts=false,format=sigconf,10pt,letterpaper]{acmart}
+\documentclass[newfonts=false,format=sigconf,anonymous,10pt,letterpaper]{acmart}
+%\documentclass[newfonts=false,format=sigconf,10pt,letterpaper]{acmart}
 \PassOptionsToPackage{numbers,super}{natbib}
 
 \def\subsectionautorefname{Section}
@@ -153,10 +154,12 @@
 	%\email{icidon@vmware.com}
 \date{}
 
-
 \ifacm %only for ACM
  \ifacmart
- \acmConference[SIGCOMM'18]{ACM Conference}{August 21-23, 2018}{Budapest, Hungary}
+% \acmConference[SIGCOMM'18]{ACM Conference}{August 21-23, 2018}{Budapest, Hungary}
+\acmConference[SYSTOR'20]{ACM International Systems and Storage Conference}{June 2020}{Haifa, Israel}
+\acmYear{2020}
+
 	\settopmatter{printfolios=true,printacmref=false} 
     \setcopyright{none}
 	\renewcommand\footnotetextcopyrightpermission[1]{} 
@@ -172,16 +175,9 @@
 %%%%%
 \begin{abstract}
 
-We contend that, analogously to the transition from resource-limited on-prem computing to resource-abundant cloud computing, Internet data delivery should also be adapted to a reality in which the cloud offers a virtually unlimited resource, \ie network capacity, and virtualization enables delegating local tasks, such as routing and congestion control, to the cloud. This necessitates rethinking the traditional roles of  inter- and intra-domain routing and conventional end-to-end congestion control.
+We contend that, analogously to the transition from resource-limited on-prem computing to resource-abundant cloud computing, Internet data delivery should also be adapted to a reality in which the cloud offers a virtually unlimited resource: \ie network capacity. Realizing this agenda necessitates rethinking traditional inter- and intra-domain routing and conventional end-to-end congestion control.
 
-We introduce \textit{Optimized Cloudified Delivery (OCD)}, a holistic approach for optimizing joint Internet/cloud data delivery, and evaluate OCD through hundreds of thousands of file downloads from multiple locations. We start by examining an OCD baseline approach:  traffic from a source $A$ to a destination $B$ successively passes through two cloud virtual machines operating as relays - nearest to $A$ and $B$; and the two cloud relays employ TCP split.
-
-We show that even this na\"ive strategy can outperform recently proposed improved end-to-end congestion control paradigms (BBR and PCC) by an order of magnitude.
-
-%We extend this baseline approach to 
-Next, we present a protocol-free, ideal pipe model of data transmission, 
-%through the cloud 
-and identify where today's Internet data delivery mechanisms diverge from this model. We then design and implement OCD \textit{\name}. \name leverages various techniques, including novel kernel-based transport-layer accelerations, to improve the Internet-Cloud interface so as to approximately match the ideal network pipe model.
+We introduce \textit{Optimized Cloudified Delivery (OCD)}, a holistic approach for optimizing ``cloudified data delivery'', and evaluate OCD through hundreds of thousands of file downloads from multiple locations. Our first main contributions is showing that even simple strategies for routing and congestion control through the cloud outperform recently proposed improved end-to-end congestion control paradigms (BBR and PCC) by an order of magnitude. We next present a protocol-free, ideal pipe model of data transmission through the cloud and identify where today's Internet data delivery diverges from this model. We build on these insights to design and implement OCD \textit{\name}. \name leverages various techniques, including novel kernel-based transport-layer accelerations, to improve the Internet-Cloud interface so as to approximately match the ideal network pipe model.
 \end{abstract}
 
 
@@ -202,26 +198,24 @@ and identify where today's Internet data delivery mechanisms diverge from this m
 This work has been submitted to the IEEE for possible publication. Copyright may be transferred without notice, after which this version may no longer be accessible.
 }}
 
-The Internet's data delivery infrastructure, whose core components (BGP, TCP, \textit{etc.}) were designed decades ago, reflects a traditional view of the Internet's landscape: traffic leaving a source traverses multiple organizational networks (Autonomous Systems), potentially contending over network resources with other traffic flows en route to its destination at multiple locations along the way. Indeed, despite many changes to the Internet ecosystem over the past two decades (the emergence of global corporate WANs, IXPs, CDNs), BGP paths consistently remain about 4-AS-hop-long on average~\cite{kuhne2012ripe,apnic2017bgp}, and congestion control on the Internet remains notoriously bad~\cite{PCC}. Consequently, fixing the deficiencies of the Internet's core networking protocols for routing and congestion control, though a decades-old agenda, remains at the center of attention, as evidenced by the surge of recent interest in novel congestion control paradigms~\cite{PCC,BBR,keqiang2016acdc} and in data-driven BGP-path-selection~\cite{yap2017taking,schlinker2017engineering}
-%\MS{Google and Facebook's papers from SIGCOMM 17}
-.
+The Internet's data delivery infrastructure, whose core components (BGP, TCP, \textit{etc.}) were designed decades ago, reflects a traditional view of the Internet's landscape: traffic leaving a source traverses multiple organizational networks (Autonomous Systems), potentially contending over network resources with other traffic flows en route to its destination at multiple locations along the way. Indeed, despite many changes to the Internet ecosystem over the past two decades (the emergence of global corporate WANs, IXPs, CDNs), BGP paths consistently remain about 4-AS-hop-long on average~\cite{kuhne2012ripe,apnic2017bgp}, and congestion control on the Internet remains notoriously bad~\cite{PCC}. Consequently, fixing the deficiencies of the Internet's core networking protocols for routing and congestion control, though a decades-old agenda, remains at the center of attention, as evidenced by the surge of recent interest in novel congestion control paradigms~\cite{PCC,BBR,keqiang2016acdc} and in data-driven BGP-path-selection~\cite{yap2017taking,schlinker2017engineering}.
 
-Meanwhile, recent developments give rise to new opportunities. Major cloud providers are pouring billions of dollars into high-performance globe-spanning networking infrastructures~\cite{gcp2018spending,aws2018spending,microsoft2018spending}. In addition, virtualization enables setting up logical relays within the cloud (in the form of virtual machines (VMs)), and controlling the routing and transport-layer protocols executed by these relays. As a result, any user can establish a virtually infinite number of VMs in the cloud, each potentially sending at a virtually infinite capacity to its outgoing links (\eg, up to 2Gbps per VM in our measurements on the most basic VM types), in a pay-as-you-go model where rates per GB keep falling. 
+Meanwhile, recent developments give rise to new opportunities. Major cloud providers are pouring billions of dollars into high-performance globe-spanning networking infrastructures~\cite{gcp2018spending,aws2018spending,microsoft2018spending}. In addition, virtualization enables setting up logical relays within the cloud (in the form of virtual machines (VMs)), and controlling the routing and transport-layer protocols executed by these relays. As a result, any user can establish a large number of VMs in the cloud, each sending at a extremely high rates (\eg, up to 2Gbps per VM in our measurements on the most basic VM types), in a pay-as-you-go model where rates per GB keep decreasing. 
 
 We argue that the emergence of cloud networks of this scale and capacity compels the networking community to rethink the traditional roles of  inter- and intra-domain routing, and of conventional end-to-end congestion control. In fact, we contend that \textit{networking is following the path of computing and storage} in their transition from resource-limited on-prem computing to resource-abundant cloud computing.  Similarly to storage and computing, in the context of networking, too, the cloud offers a virtually unlimited resource, \ie network capacity, and virtualization enables delegating to the cloud local tasks, namely, (interdomain) routing and congestion control. Our aim is to analyze what would happen to Internet data delivery if it also were to become ``cloudified''.
 
-\T{OCD baseline (\S\ref{sec:ocd-baseline}).} We introduce \textit{Optimized and Cloudified Delivery}~(OCD), a holistic approach that aims at exploring the performance  implications  of delegating routing and congestion control to the cloud. We start by comparing the current end-to-end Internet data delivery to an \textit{OCD baseline}: (1) traffic from a source $A$ to a destination $B$ successively passes through the two cloud relays, one near $A$ and the other near $B$; and (2) the two cloud relays employ TCP split, dividing the end-to-end TCP connection into three connections. Thanks to the advent of virtualization, this OCD baseline is relatively easy to implement. This baseline stategy, while simple, captures the essence of OCD: minimizing time outside the cloud so as to avoid BGP's inefficiencies and separating traffic modulation within and without the cloud.
+\T{OCD baseline (\S\ref{sec:ocd-baseline}).} We introduce \textit{Optimized and Cloudified Delivery}~(OCD), a holistic approach for delegating routing and congestion control to the cloud. We start by comparing the current end-to-end Internet data delivery to a simple \textit{OCD baseline}: (1) traffic from a source $A$ to a destination $B$ successively passes through the two cloud relays, one near $A$ and the other near $B$; and (2) the two cloud relays employ TCP split, dividing the end-to-end TCP connection into three connections. Thanks to the advent of virtualization, this OCD baseline is relatively easy to implement. This baseline strategy, while simple, captures the essence of OCD: minimizing time outside the cloud so as to avoid BGP's inefficiencies and separating traffic modulation within and outside the cloud.
 
-Our evaluation of the OCD baseline on three major clouds and on both inter- and intra-continental traffic, reveals that file download times for a 4MB file over this OCD baseline outperform those over the wild Internet by a $5\times$ factor. Download times of large files can improve by up to $30\times$, while those of small files are barely affected or get slightly worse. Importantly, using recently proposed end-to-end congestion-control protocols over the Internet, such as PCC~\cite{PCC} and BBR~\cite{BBR}, improves performance by less than $30\%$. In short, the OCD baseline approach appears quite promising. 
+Our evaluation of the OCD baseline on three major clouds and on both inter- and intra-continental traffic, reveals that file download times for a 4MB file over this OCD baseline outperform those over the wild Internet by $5\times$. Download times of large files can improve by up to $30\times$, while those of small files are barely affected or get slightly worse. Importantly, using recently proposed end-to-end congestion-control protocols over the Internet, such as PCC~\cite{PCC} and BBR~\cite{BBR}, improves performance by less than $30\%$.
 
-\T{\name (\S\ref{sec:rate-control}).} To go beyond the OCD baseline, we next introduce the abstraction of a fixed-capacity network pipe interconnecting source $A$ and destination $B$. We present a protocol-free, ideal theoretical model of such a network pipe, and explain how today's Internet data delivery mechanisms introduce a seriality that diverges from this ideal pipe model. We argue that as the (long) cloud leg essentially encounters no congestion, transport-layer mechanisms can be adapted to better approximate the ideal network pipe model. To accomplish this, we design and implement OCD \textit{\name}, which leverages various techniques, including novel kernel-based transport-layer accelerations. 
+\T{\name (\S\ref{sec:rate-control}).} To go beyond this simple baseline, we introduce the abstraction of a fixed-capacity network pipe interconnecting source $A$ and destination $B$. We present a protocol-free, ideal theoretical model of such a network pipe, and explain how today's Internet data delivery mechanisms diverge from this ideal pipe model. We argue that as the (long) cloud leg essentially encounters no congestion, transport-layer mechanisms can be adapted to better approximate the ideal network pipe model. To accomplish this, we design and implement OCD \textit{\name}, which extends the above discussed simple baseline by leveraging various techniques, including novel kernel-based transport-layer accelerations. 
 
-\T{OCD Evaluations (\S\ref{sec:baseline-good_enough}).} We next revisit two key design choices behind our OCD approach: (1) employing two cloud relays (placed near the source and the destination) and (2) splitting TCP. Our evaluation relies on a large-scale empirical
+\T{OCD Evaluations (\S\ref{sec:baseline-good_enough}).} We next revisit two of our key design choices: (1) employing two cloud relays (placed near the source and the destination) and (2) splitting TCP. Our evaluation relies on a large-scale empirical
 investigation involving the download of hundreds of thousands of files of
 varying sizes from multiple locations within and outside the cloud. Our results
 show that: (1) Using the two cloud relays that are closest to $A$ and $B$ indeed improves performance over using most single cloud relays. While using the best single cloud relay may perform slightly better, it is hard to identify this relay in advance. Further, using three relays instead of two provides, at best, small marginal benefit. Also, (2) not splitting TCP significantly hurts the data transfer performance, and therefore splitting appears to be a \textit{must}. In addition, we find that combining routes through several clouds may help in the future.
 
-\T{OCD implementation (\S\ref{sec:implementation}).} The OCD \name relies on a novel Linux kernel-based split acceleration we call \textit{\ksplit}~\cite{ktcp}. To our knowledge, \ksplit is the first TCP split tool written in the Linux kernel, using kernel sockets. Avoiding the penalties that stem from the numerous system calls of user-mode implementations. We make \ksplit publicly available as open-source on Github, thus enabling any user to try \name on any cloud. 
+\T{OCD implementation (\S\ref{sec:implementation}).} OCD \name employs on a novel Linux kernel-based split acceleration we call \textit{\ksplit}~\cite{ktcp}. To our knowledge, \ksplit is the first TCP split tool written in the Linux kernel, using kernel sockets. Avoiding the penalties that stem from the numerous system calls of user-mode implementations. We make \ksplit publicly available as open-source on Github, thus enabling any user to try \name on any cloud. 
 
 \T{Deployment strategies (\S\ref{sec:deployment}).} We finally discuss the issues arising from a large global transition to OCD. A first danger is the saturation of cloud resources. However, since these resources are based on a pay-as-you-go model, we posit that the invisible hand will incentivize cloud providers to provision their networks to meet the growing user demand.  
 A second danger is the potential unfairness between high- and low-speed data transfer lanes. Paradoxically, we show that OCD may be a way to \textit{restore} fairness between long- and short-span flows that are obeying the unfairness of TCP mechanisms (bandwidth~$\propto \frac{1}{RTT}$).%\sqrt{p}
@@ -378,7 +372,13 @@ We validate the choice of TCP splitting via exhaustive testing.~\autoref{fig:mus
   \includegraphics[width=\columnwidth,clip]{figures/split.png}
     \caption{Simple TCP cloud split.} \label{fig:baseline}
 \end{subfigure}
-    \caption{Illustrated comparison of the considered baseline data transmission methods. Suppose, for simplicity of exposition, that the client requests three MSS-sized packets using HTTP over TCP, that the initial TCP window size is one MSS, and that there are no losses.\\ \textit{(a)} In an ideal clean-slate world, the request for packets would go through directly, triggering the transmission of all response packets. The time-to-first-byte (TTFB) is just one round-trip time (RTT), the lowest possible TTFB. The download time is barely higher.\\ \textit{(b)} End-to-end TCP transmission first requires the establishment of an end-to-end connection, adding one RTT to the ideal finish time. Waiting one RTT for the first ACK further delays the download. \\ \textit{(c)} The baseline strategy of Section~\ref{sec:ocd-baseline} decreases the ACK times for longer files, but introduces new delays such as thread fork delays in the connection. This explains why the Baseline is less efficient for small files. We later revisit all the delays that appear beyond those of the ideal transmission (Figure~\ref{fig:KSPLIT-improvements}). We show how to address the delays marked (1)-(4), but are left with delays $\Delta_c$ and $\Delta_s$ on the client and server sides, respectively.  }
+    \caption{Illustrated comparison of the considered baseline data transmission methods. 
+    %Suppose, for simplicity of exposition, that the client requests three MSS-sized packets using HTTP over TCP, that the initial TCP window size is one MSS, and that there are no losses.\\
+    \textit{(a)} In an ideal clean-slate world, the request for packets would go through directly, triggering the transmission of all response packets. The time-to-first-byte (TTFB) is just one round-trip time (RTT), the lowest possible TTFB. The download time is barely higher.\\ \textit{(b)} End-to-end TCP :
+    establishment of an end-to-end connection, adds one RTT to the ideal finish time. Waiting one RTT for the first ACK further delays the download. \\ \textit{(c)} The baseline strategy of Section~\ref{sec:ocd-baseline} decreases the ACK times for longer files, but introduces new compute delays in the proxies. 
+    %This explains why the Baseline is less efficient for small files. We later revisit all the delays that appear beyond those of the ideal transmission (Figure~\ref{fig:KSPLIT-improvements}). 
+%    We show how to address the delays marked (1)-(4), but are left with delays $\Delta_c$ and $\Delta_s$ on the client and server sides, respectively. 
+}
 \end{figure*}
 
 \begin{figure*}[!t]
@@ -410,7 +410,9 @@ We validate the choice of TCP splitting via exhaustive testing.~\autoref{fig:mus
 %   \includegraphics[width=\columnwidth]{figures/early-syn.png}
 %     \caption{Early-SYN.} \label{fig:early-syn}
 % \end{subfigure}
-    \caption{\oursys successive implementation improvements: Using \textit{Early-SYN}, we can remove SYN-ACK and ACK delays (marked as (1) in Figure~\ref{fig:baseline}). Using a \textit{thread pool} removes forks (marked as (2) in Figure~\ref{fig:baseline}). With a \textit{connection pool}, delay (3) in Figure~\ref{fig:baseline} is eliminated. Turbo-Start TCP eliminates delay (4). The two last delays from Figure~\ref{fig:baseline} that need be removed are delays $\Delta_c$ and $\Delta_s$ on the client and server sides, respectively. As both depend on the client and server parameters, they seem beyond our control. 
+    \caption{%\oursys successive
+    Implementation improvements: %Using
+    \textit{Early-SYN}, we can remove SYN-ACK and ACK delays ((1) in Figure~\ref{fig:baseline}). Using a \textit{thread pool} removes forks ((2) in Figure~\ref{fig:baseline}). With a \textit{connection pool}, delay (3) in Figure~\ref{fig:baseline} is eliminated. Turbo-Start TCP eliminates delay (4). The two last delays from Figure~\ref{fig:baseline} that need be removed are delays $\Delta_c$ and $\Delta_s$ on the client and server sides, respectively. %As both depend on the client and server parameters, they seem beyond our control. 
     }
     \label{fig:KSPLIT-improvements}
 \end{figure*}
@@ -492,7 +494,12 @@ When using an overlay network, one may ask, how many relays do we need? In the f
 \begin{figure}
   \centering
     \includegraphics[width=\columnwidth,trim=2mm 5mm 1mm 5mm,clip]{figures/hops.png}
-    \caption{One, two and three relays when using TCP splitting in AWS for the Mumbai-SF international setting. (1)~The first striped red bar shows the performance of the simple OCD Baseline two-relay placement at the nodes that are closest to the client and the server. (2)~Next, the 14 blue bars show all the options for a single-relay option. The best option is ap-se-1 with a normalized performance of 6.64$\times$, above the Baseline two-relay option. However, all other single-relay options have a lower performance, and the median option gets 1.99$\times$, \ie only 30\% of the best performance. (3)~Finally, the three green bars show a few options for the middle relay in the three-relay method, given the Baseline two-relay options at the extremities; \eg eu-ce-1 shows the performance of consecutively going through (us-we-1$\to$eu-ce-1$\to$ap-so-1). The best option is ap-ne-1 with an 8.64$\times$ performance. } 
+    \caption{One, two and three relays when using TCP splitting in AWS for the Mumbai-SF test. (1)~The first striped red bar shows the performance of the simple OCD Baseline two-relay placement at the nodes that are closest to the client and the server. (2) The blue bars show all single-relay options. %The best option is ap-se-1 with a normalized performance of 6.64$\times$, above the Baseline two-relay option. However, all other single-relay options have a lower performance, and the median option gets 1.99$\times$, \ie only 30\% of the best performance. 
+    (3)The green bars show a few options for the middle relay 
+    %in the three-relay method, 
+    given the Baseline two-relay options at the extremities.
+    %; \eg eu-ce-1 shows the performance of consecutively going through (us-we-1$\to$eu-ce-1$\to$ap-so-1). The best option is ap-ne-1 with an 8.64$\times$ performance. 
+    } 
     \label{fig:how-many-hops-aws}
 \end{figure}
 
@@ -514,7 +521,7 @@ showcases representative results. Here we utilize the residential client in the 
   \centering
     \includegraphics[width=0.47\textwidth,trim=2mm 2mm 2mm 2mm,clip]{figures/aggressive.png}
     \caption{%Impact of Quick-Start TCP 
-    The impact of using different congestion control options is demonstrated using the Mumbai-SF international transmission of a large file with TCP splitting over AWS. In all three cases of best-single, OCD Baseline and best-triple relays, Turbo-Start Cubic achieves remarkably higher efficiency. In the last two cases, it achieves an impressive 11.4$\times$ improvement over e2e.
+    The impact of using different congestion control options over the Mumbai-SF transmission with TCP splitting over AWS. %In all three cases of best-single, OCD Baseline and best-triple relays, Turbo-Start Cubic achieves remarkably higher efficiency. In the last two cases, it achieves an impressive 11.4$\times$ improvement over e2e.
    }
     \label{fig:aggressive}
 \end{figure}
@@ -558,9 +565,9 @@ We point out that, in contrast to the above results, this estimator fails to pro
     \caption{Performance gain estimates \vs actual gain of \textbf{(a)} the single relay method without splitting; and \textbf{(b)} the 3 relay setup with splitting.}
 \end{figure}
 
-\subsection{Mixing Clouds}\label{subsec:mixing-clouds}
+%\subsection{Mixing Clouds}\label{subsec:mixing-clouds}
 
-We also tested whether routes traversing different clouds can produce better results. To this end we rerun the 2-relay and 3-relay experiments (with TCP splitting) using the SF client and Mumbai server with \rc on AWS and \rs on Azure. We compared performance to that of the same strategies with AWS relays only. Our preliminary results show that mixing clouds was indeed beneficial in some of the evaluated scenarios--- specifically, when Turbo-Start Cubic was used and/or when three relays were used (with either Cubic or Turbo-Start Cubic). 
+%We also tested whether routes traversing different clouds can produce better results. To this end we rerun the 2-relay and 3-relay experiments (with TCP splitting) using the SF client and Mumbai server with \rc on AWS and \rs on Azure. We compared performance to that of the same strategies with AWS relays only. Our preliminary results show that mixing clouds was indeed beneficial in some of the evaluated scenarios--- specifically, when Turbo-Start Cubic was used and/or when three relays were used (with either Cubic or Turbo-Start Cubic). 
 
 
 \section{OCD \ksplit Implementation}\label{sec:implementation}
@@ -579,35 +586,40 @@ Similarly to the transition to cloud computing, cloud service providers such as 
 
 Realizing OCD by a cloud provider can be accomplished by utilizing mechanisms employed by CDNs, such as the following. Suppose that a content owner such as CNN wishes traffic to/from the content to be sent via OCD, and purchases OCD services from the cloud. The cloud service provider can then set up cloud relays in the vicinity of the CNN content (and autoscale them as needed). Now, consider a client $A$ located outside the cloud. When the client seeks CNN's IP address through DNS, the corresponding DNS records should be overridden so as to point that client to the IP address of the cloud relay closest to that client. Then, traffic from the client to CNN and vice versa can be sent through the cloud by entering/leaving the cloud via the corresponding cloud relays.
 
-\subsection{Incremental Deployment of OCD}
+%\subsection{Incremental Deployment of OCD}
 
-Now, consider the scenario of a content owner such as CNN that wishes to use OCD. Yet, no cloud service provider offers OCD as a service. CNN, in this example, can deploy OCD for its own traffic using the exact same methods as described in Section~\ref{subsec:enhancing-w-ocd}. Of course, the overhead of doing so is non-negligible (overriding DNS records, setting up virtual machines in the cloud and auto-scaling them, \etc). Alternatively, non-cloud-service-providers can offer such services to content owners (such as CNN). These non-cloud-service-providers potentially could create a virtual overlay over the cloud and solve the associated operational challenges.
+%Now, consider the scenario of a content owner such as CNN that wishes to use OCD. Yet, no cloud service provider offers OCD as a service. CNN, in this example, can deploy OCD for its own traffic using the exact same methods as described in Section~\ref{subsec:enhancing-w-ocd}. Of course, the overhead of doing so is non-negligible (overriding DNS records, setting up virtual machines in the cloud and auto-scaling them, \etc). Alternatively, non-cloud-service-providers can offer such services to content owners (such as CNN). These non-cloud-service-providers potentially could create a virtual overlay over the cloud and solve the associated operational challenges.
 
 \subsection{Fairness}
 
-\T{Inside the cloud.} We were wondering whether Turbo-Start Cubic is too aggressive and unfair towards other regular TCP flows by essentially skipping the slow-start phase of TCP. Even though we keep the connection remainder unchanged, aren't we just hogging the link and exploiting a loophole
-that cloud providers should soon close?
+\T{Inside the cloud.} We were wondering whether Turbo-Start Cubic is too aggressive and unfair towards other regular TCP flows.% by essentially skipping the slow-start phase of TCP. Even though we keep the connection remainder unchanged, aren't we just hogging the link and exploiting a loophole that cloud providers should soon close?
 \autoref{fig:agg-vs-cubic} looks at the per-byte download time of our large file in the cloud. We learn that (1) the average throughput is clearly higher for the Turbo-Start Cubic, as expected from its better performance (\autoref{fig:aggressive}); but (2) this is mainly because TCP Cubic tends to have abrupt packet bursts during its slow-start phase. First waiting a full RTT for a batch of ACKs to arrive back to the server, then sending bursts of packets to catch up. When zooming on the TCP-Cubic bursts, it is clear that the gradient is steeper than that of Turbo-Start Cubic, \ie it is \textit{more} aggressive because of this tendency to catch up. 
 \begin{figure}[!t]
   \centering
     \includegraphics[width=0.46\textwidth,trim=20mm 25mm 25mm 20mm,clip]{figures/CubicVsAggressive-seq}
-    \caption{Per-byte look at the flow between \rs and \rc, as captured on \rc. The graphs depict the sequence number received \vs relative time (to the beginning of the TCP connection). The transmission rate during the bursts in the default cubic option is 260 MBps while it is only 110 Mbps when the Turbo-Start option is used. However, since Turbo-Start avoids slow-start, its overall download time is much shorter.  
+    \caption{Per-byte look at the flow between \rs and \rc, as captured on \rc. The graphs depict the sequence number received \vs relative time ( connection start). %The transmission rate during the bursts in the default cubic option is 260 MBps while it is only 110 Mbps when the Turbo-Start option is used. However, since Turbo-Start avoids slow-start, its overall download time is much shorter.  
     }
     \label{fig:agg-vs-cubic}
 \end{figure}
 
-\T{Outside the cloud.} We also considered the legs of the route that reside outside the cloud, \eg between the client and the relay \rc closest to it. Are we somehow hogging the Internet resources to achieve better performance? 
+\T{Outside the cloud.} We also considered the legs of the route that reside outside the cloud, \eg between the client and the relay \rc closest to it. %Are we somehow hogging the Internet resources to achieve better performance? 
 
-Our design focuses on improvements within the cloud relays, and only modifies TCP parameters for the intra-cloud legs of the route. We deliberately make sure the Internet-facing flows originating from OCD relays use the default Linux settings. Any TCP traffic from a \oursys relay should compete fairly with other TCP flows, just  like any other flow on the Internet.
+%Our design focuses on improvements within the cloud relays, and only modifies TCP parameters for the intra-cloud legs of the route. 
+We deliberately make sure the Internet-facing flows originating from OCD relays use the default Linux settings. Any TCP traffic from a \oursys relay should compete fairly with other TCP flows.%, just  like any other flow on the Internet.
 
-However, OCD does have a noticeable effect on TCP fairness. \name, in fact, interestingly \textit{improves} the fairness between long-haul TCP flows and their shorter competitors.
-It is well known that TCP Cubic (as well as other TCP congestion control algorithms) is unfair towards large-RTT flows when they share a bottleneck connection with short RTT flows \cite{kelly2001mathematical}. Indeed, we conducted such an experiment, using our infrastructure to route the long-haul flow through our relays, without otherwise modifying the flow, and have it share the $(\mbox{client}\Longleftrightarrow\rc)$ route with a shorter flow downloading directly from $\rc$.
+%However,
+OCD does have a noticeable effect on TCP fairness. \name, in fact, interestingly \textit{improves} the fairness between long-haul TCP flows and their shorter competitors.
+It is well known that TCP Cubic (as well as other TCP congestion control algorithms) is unfair towards large-RTT flows when they share a bottleneck connection with short RTT flows \cite{kelly2001mathematical}. %Indeed,
+we conducted such an experiment, 
+%using our infrastructure 
+to route the long-haul flow through our relays, without otherwise modifying the flow, and have it share the $(\mbox{client}\Longleftrightarrow\rc)$ route with a shorter flow downloading directly from $\rc$.
 \autoref{fig:direct-vs-nat} presents the throughput of each of the flows over time (averaged over a window of 1 sec). We clearly see that the flow with the shorter RTT actually pushes out the longer-RTT flow. When the same experiment is run, this time enabling \name on the large-RTT flow (\autoref{fig:direct-vs-piper}), the improvement in the throughput of the long-haul flow is apparent. This time, both flows get a roughly equal share of the bottleneck link.
  
 \begin{figure}[!t]
   \centering
     \includegraphics[width=0.46\textwidth,trim=20mm 25mm 25mm 20mm,clip]{figures/DirectVsNAT.pdf}
-    \caption{ (Un)Fairness between two competing flows destined to the same client in San Francisco. One is downloading a 50 MB file from $\rc$, with an RTT of $33$ms, while a concurrent one is downloading a similar file from the server in Bangalore. To ensure these flows share some bottleneck link we route this latter through the cloud ($\rs$ and $\rc$), without splitting it. The resulting RTT for this route is therefore $274$ms. The two HTTP requests from the client are sent simultaneously. As expected, the flow with the shorter RTT hogs the bottleneck link, and the longer-RTT flow ramps up only at the end of the shorter flow.
+    \caption{ (Un)Fairness between two competing flows destined to the same client in San Francisco. One is downloading a 50 MB file from $\rc$, with an RTT of $33$ms, while a concurrent one is downloading a similar file from the server in Bangalore. %To ensure these flows share some bottleneck link we route this latter through the cloud ($\rs$ and $\rc$), without splitting it. The resulting RTT for this route is therefore $274$ms. The two HTTP requests from the client are sent simultaneously.
+    As expected, the flow with the shorter RTT hogs the bottleneck link, and the longer-RTT flow ramps up only at the end of the shorter flow.
     }
     \label{fig:direct-vs-nat}
 \end{figure}
@@ -633,10 +645,10 @@ CRONets~\cite{CRONets} leverages a \emph{single} cloud relay with TCP splitting 
 
 \T{Cloud connectivity and performance.} \cite{one-hop} shows that some 60\% of end-user prefixes are within one-AS-hop from GCP (Google Cloud Platform). A different study~\cite{cgn2017} established that AWS has at least one node within a median RTT of merely 4.8~ms from servers hosting the top 10k most popular Web sites. \cite{unusual} shows that modern clouds have unusual internal routing structures that are hard to infer and CLAudit \cite{multidimensional} points out the increasing reliability of cloud latency. 
 
-\T{TCP Split.} Several papers considered TCP split to better TCP performance, \eg overcome different link characteristics~ \cite{Kopparty2002} (wired and wireless), compensate for very long RTTs in satellite links \cite{luglio2004}, and reduce search query latency~\cite{pathak2010measuring}. 
-Pucha and Hu explore TCP overlay \cite{pucha2005overlay, pucha2005slot}. 
+%\T{TCP Split.} Several papers considered TCP split to better TCP performance, \eg overcome different link characteristics~ \cite{Kopparty2002} (wired and wireless), compensate for very long RTTs in satellite links \cite{luglio2004}, and reduce search query latency~\cite{pathak2010measuring}. 
+%Pucha and Hu explore TCP overlay \cite{pucha2005overlay, pucha2005slot}. 
 
-Miniproxy~\cite{siracusano2016miniproxy} implements split TCP proxy in a virtualized environment. In contrast to our work, miniproxy utilizes minikernels~\cite{minikernel} and a modified lwip \cite{lwip} instead of \sockets. The only previous work that we know of, that implements a Split TCP proxy in the kernel is~\cite{kernelsplit}. This work simulates a split connection by spoofing ACKs and forwarding the packets, working packet by packet rather than with byte streams. We, in contrast, use standard \sockets and manage each side of the connection separately. This allows us to be flexible and easily experiment with different optimizations.
+%Miniproxy~\cite{siracusano2016miniproxy} implements split TCP proxy in a virtualized environment. In contrast to our work, miniproxy utilizes minikernels~\cite{minikernel} and a modified lwip \cite{lwip} instead of \sockets. The only previous work that we know of, that implements a Split TCP proxy in the kernel is~\cite{kernelsplit}. This work simulates a split connection by spoofing ACKs and forwarding the packets, working packet by packet rather than with byte streams. We, in contrast, use standard \sockets and manage each side of the connection separately. This allows us to be flexible and easily experiment with different optimizations.
 
 \section{Conclusion}\label{sec:conclusion}
 We initiated the systematic exploration of cloudified data delivery and presented initial results suggesting that optimization of performance should be viewed through the congestion-control lens.  We view cloudified data delivery as a promising direction for overcoming the inefficiencies of today's routing (BGP) and congestion control (TCP) protocols. We thus argue that tapping the full potential of this approach is of great importance. 
